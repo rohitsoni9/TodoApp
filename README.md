@@ -1,4 +1,4 @@
-# todo_practical
+# My TODO's
 
 TODO App - Manage Your Daily Task.
 
