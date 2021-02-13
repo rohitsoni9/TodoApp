@@ -70,7 +70,7 @@ class _TodoListPageState extends State<TodoListPage> {
                         onPressed: () async {
                           await addTask();
                         },
-                        icon: Icon(Icons.add),
+                        icon: Icon(Icons.check),
                       )),
                 ),
                 SizedBox(height: 22),

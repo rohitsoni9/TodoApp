@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_practical/utils/Extensions.dart';
 
 class TaskModel {
@@ -108,62 +109,119 @@ class TaskModel {
                   );
                 });
           },
-          child: Container(
-            padding: EdgeInsets.all(8),
-            child: Row(
-              children: [
-                Checkbox(
-                  value: completedAt != null,
-                  onChanged: (val) {
-                    statusChange.call(this);
-                  },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: completedAt != null,
+                      onChanged: (val) {
+                        statusChange.call(this);
+                      },
+                    ),
+                    Expanded(
+                      child: Text(
+                        description ?? "",
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(
+                            decoration: completedAt == null
+                                ? TextDecoration.none
+                                : TextDecoration.lineThrough,
+                            color: completedAt == null
+                                ? Colors.black
+                                : Colors.grey),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return AlertDialog(
+                                actions: [
+                                  FlatButton(
+                                    child: Text(
+                                      "No",
+                                      style: Theme.of(ctx)
+                                          .textTheme
+                                          .button
+                                          .copyWith(color: Colors.grey),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop();
+                                    },
+                                  ),
+                                  FlatButton(
+                                    child: Text("Yes"),
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop();
+                                      delete.call(id);
+                                    },
+                                  ),
+                                ],
+                                content: Text("Are you sure want to remove?"),
+                              );
+                            });
+                      },
+                      icon: Icon(Icons.delete, color: Colors.grey),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Text(
-                    description ?? "",
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                        decoration: completedAt == null
-                            ? TextDecoration.none
-                            : TextDecoration.lineThrough,
-                        color:
-                            completedAt == null ? Colors.black : Colors.grey),
-                  ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Created On",
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Text(
+                          DateFormat("dd-MMM-yyyy hh:mm a").format(createdAt),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Updated On",
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Text(
+                          DateFormat("dd-MMM-yyyy hh:mm a").format(updatedAt),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                IconButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (ctx) {
-                          return AlertDialog(
-                            actions: [
-                              FlatButton(
-                                child: Text(
-                                  "No",
-                                  style: Theme.of(ctx)
-                                      .textTheme
-                                      .button
-                                      .copyWith(color: Colors.grey),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(ctx).pop();
-                                },
-                              ),
-                              FlatButton(
-                                child: Text("Yes"),
-                                onPressed: () {
-                                  Navigator.of(ctx).pop();
-                                  delete.call(id);
-                                },
-                              ),
-                            ],
-                            content: Text("Are you sure want to remove?"),
-                          );
-                        });
-                  },
-                  icon: Icon(Icons.delete, color: Colors.grey),
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: 12),
+              completedAt != null
+                  ? Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Completed On : ",
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                          Text(
+                            DateFormat("dd-MMM-yyyy hh:mm a")
+                                .format(completedAt),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(),
+              SizedBox(height: 12)
+            ],
           ),
         ),
       );
