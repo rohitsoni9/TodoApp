@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:todo_practical/model/TaskModel.dart';
 import 'package:todo_practical/store/AuthStore.dart';
-import 'package:todo_practical/widgets/GradientButton.dart';
 import 'package:todo_practical/utils/Extensions.dart';
 import 'package:todo_practical/constants/Globals.dart' as globals;
 import 'package:todo_practical/widgets/ProgressContainerView.dart';
